@@ -1,0 +1,5 @@
+The Patient Identification System commences with the PatientIdentifier module, serving as the initial point of reception for incoming patient data. Upon receipt, the PatientIdentifier module utilizes the PatientID associated with the data to locate a corresponding patient record within the PatientRecord archive. If a match is identified, the existing data can be retrieved from the archive if deemed necessary. However, if no match is found, the PatientIdentifier module signals the initiation of a new patient record creation process.
+
+To address potential discrepancies, the IdentityManager module is activated. Discrepancies may arise when newly received data for an existing patient conflicts with the data stored in the archive. In such cases, the IdentityManager module's method returns a Boolean value and triggers the alertGenerator method, subsequently signaling the AlertGenerator module. This triggers an alert to notify the system of the anomaly.
+
+Upon completion of the IdentityManager's checks, the PatientRecord module handles the new data by either storing it, deleting it, or retrieving it as required.

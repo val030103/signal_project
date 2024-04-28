@@ -1,0 +1,5 @@
+Upon receipt of abnormal data surpassing a designated threshold, the Alert Generator initiates a retrieval of the patient's data history from the Data Storage to track the data's progression. Continuously receiving this historical data, the Alert Generator evaluates the necessity of issuing an alert. Should it deem an alert necessary, it triggers an alert on the hospital monitors to garner the attention of the staff.
+
+Upon acknowledgment of the alert by the staff, notifying the Alert Generator that the issue is under review and requires no further alerts, the system proceeds accordingly. If the issue persists unresolved, nurses administer treatment to stabilize the patient's abnormal readings. This treatment alters the data readings on the Patient Data Machine, providing the Alert Generator with updated data for evaluation.
+
+If the new readings indicate a positive trend, the Alert Generator marks the issue as resolved. However, if the new readings do not demonstrate improvement, the Alert Generator generates a new alert after a specified interval.
