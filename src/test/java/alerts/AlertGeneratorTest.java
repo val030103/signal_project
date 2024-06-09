@@ -2,15 +2,10 @@ package alerts;
 
 import com.data_management.DataStorage;
 import com.data_management.Patient;
-import com.data_management.PatientRecord;
 import com.alerts.AlertGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class AlertGeneratorTest {
 
