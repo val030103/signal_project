@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import com.data_management.*;
 
+/**
+ * Unit tests for the DataStorage singleton implementation.
+ */
 public class DataStorageSingletonTest {
 
     @Test

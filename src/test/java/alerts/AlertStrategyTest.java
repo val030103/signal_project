@@ -8,6 +8,9 @@ import com.alerts.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Unit tests for the various AlertStrategy implementations.
+ */
 public class AlertStrategyTest {
 
     @Test

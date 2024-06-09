@@ -11,6 +11,9 @@ import com.data_management.PatientRecord;
 
 import java.util.List;
 
+/**
+ * Unit tests for the DataStorage class.
+ */
 class DataStorageTest {
 
     private DataStorage storage;

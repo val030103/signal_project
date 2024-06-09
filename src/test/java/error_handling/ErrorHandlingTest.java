@@ -6,8 +6,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Test class for handling errors in WebSocketClientImpl.
+ */
 public class ErrorHandlingTest {
 
+    /**
+     * Tests handling of a malformed data message in WebSocketClientImpl.
+     *
+     * @throws URISyntaxException if the URI is incorrect
+     */
     @Test
     public void testMalformedDataMessage() throws URISyntaxException {
         WebSocketClientImpl client = new WebSocketClientImpl(new URI("ws://localhost:8080"), null); // Mock DataStorage for simplicity

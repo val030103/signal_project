@@ -13,11 +13,19 @@ import java.net.URISyntaxException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Integration test class to validate the interaction between WebSocket client, data storage, and alert generator.
+ */
 public class IntegrationTest {
     private DataStorage dataStorage;
     private WebSocketClientImpl webSocketClient;
     private AlertGenerator alertGenerator;
 
+    /**
+     * Sets up the test environment by initializing the DataStorage, WebSocketClientImpl, and AlertGenerator.
+     *
+     * @throws URISyntaxException if the WebSocket URI is incorrect
+     */
     @BeforeEach
     public void setUp() throws URISyntaxException {
         dataStorage = DataStorage.getInstance();
@@ -25,6 +33,12 @@ public class IntegrationTest {
         alertGenerator = new AlertGenerator(dataStorage);
     }
 
+    /**
+     * Tests the real-time data processing by simulating a WebSocket message and verifying data storage and alert generation.
+     *
+     * @throws IOException if an I/O error occurs
+     * @throws InterruptedException if the WebSocket connection is interrupted
+     */
     @Test
     public void testRealTimeDataProcessing() throws IOException, InterruptedException {
         webSocketClient.connectBlocking();  // Connect to the WebSocket server

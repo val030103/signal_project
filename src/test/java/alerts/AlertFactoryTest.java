@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import com.alerts.*;
 
+/**
+ * Unit tests for the AlertFactory and its subclasses.
+ */
 public class AlertFactoryTest {
 
     @Test

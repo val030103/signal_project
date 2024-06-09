@@ -4,6 +4,9 @@ import java.util.Random;
 import com.cardio_generator.outputs.ConsoleOutputStrategy;
 import com.cardio_generator.outputs.OutputStrategy;
 
+/**
+ * Generates alerts based on random probabilities for a set number of patients.
+ */
 public class AlertGenerator implements PatientDataGenerator {
 
     public static final Random randomGenerator = new Random(); // Random generator for simulating alert events.

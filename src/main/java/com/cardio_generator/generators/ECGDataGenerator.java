@@ -4,11 +4,19 @@ import java.util.Random;
 
 import com.cardio_generator.outputs.OutputStrategy;
 
+/**
+ * Generates ECG data for patients.
+ */
 public class ECGDataGenerator implements PatientDataGenerator {
     private static final Random random = new Random();
     private double[] lastEcgValues;
     private static final double PI = Math.PI;
 
+    /**
+     * Initializes the ECGDataGenerator with baseline ECG values for each patient.
+     *
+     * @param patientCount the number of patients to generate data for
+     */
     public ECGDataGenerator(int patientCount) {
         lastEcgValues = new double[patientCount + 1];
         // Initialize the last ECG value for each patient
@@ -17,9 +25,14 @@ public class ECGDataGenerator implements PatientDataGenerator {
         }
     }
 
+    /**
+     * Generates and outputs ECG data for a specific patient.
+     *
+     * @param patientId the identifier of the patient for whom to generate data
+     * @param outputStrategy the output strategy to handle the formatted data
+     */
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
-        // TODO Check how realistic this data is and make it more realistic if necessary
         try {
             double ecgValue = simulateEcgWaveform(patientId, lastEcgValues[patientId]);
             outputStrategy.output(patientId, System.currentTimeMillis(), "ECG", Double.toString(ecgValue));
@@ -30,6 +43,13 @@ public class ECGDataGenerator implements PatientDataGenerator {
         }
     }
 
+    /**
+     * Simulates an ECG waveform for a specific patient.
+     *
+     * @param patientId the identifier of the patient
+     * @param lastEcgValue the last recorded ECG value for the patient
+     * @return the simulated ECG value
+     */
     private double simulateEcgWaveform(int patientId, double lastEcgValue) {
         // Simplified ECG waveform generation based on sinusoids
         double hr = 60.0 + random.nextDouble() * 20.0; // Simulate heart rate variability between 60 and 80 bpm

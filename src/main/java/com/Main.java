@@ -1,12 +1,14 @@
 package com;
 
 import com.cardio_generator.HealthDataSimulator;
+import com.alerts.AlertGenerator;
+import com.data_management.DataStorage;
 
 import java.io.IOException;
 
-import com.alerts.AlertGenerator;
-import com.data_management.DataStorage;;
-
+/**
+ * Main class to run different components of the application.
+ */
 public class Main {
     public static void main(String[] args) throws IOException {
         if (args.length > 0) {

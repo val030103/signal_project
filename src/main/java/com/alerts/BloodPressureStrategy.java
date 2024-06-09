@@ -3,8 +3,17 @@ package com.alerts;
 import com.data_management.PatientRecord;
 import java.util.List;
 
+/**
+ * Strategy for checking blood pressure alerts based on patient records.
+ */
 public class BloodPressureStrategy implements AlertStrategy {
 
+    /**
+     * Checks if any blood pressure alert conditions are met based on the provided patient records.
+     *
+     * @param records the list of patient records to evaluate
+     * @return true if an alert condition is met, false otherwise
+     */
     @Override
     public boolean checkAlert(List<PatientRecord> records) {
         int consecutiveCount = 0;

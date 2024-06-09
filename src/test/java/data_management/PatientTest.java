@@ -8,6 +8,9 @@ import com.data_management.PatientRecord;
 
 import java.util.List;
 
+/**
+ * Unit tests for the Patient class.
+ */
 public class PatientTest {
 
     @Test

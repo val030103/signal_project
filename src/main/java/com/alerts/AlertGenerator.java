@@ -6,13 +6,24 @@ import com.data_management.PatientRecord;
 
 import java.util.List;
 
+/**
+ * Generates alerts based on patient data stored in the DataStorage.
+ */
 public class AlertGenerator {
     private DataStorage dataStorage;
 
+    /**
+     * Constructs an AlertGenerator with the specified DataStorage.
+     *
+     * @param dataStorage the data storage containing patient data
+     */
     public AlertGenerator(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
     }
 
+    /**
+     * Evaluates data for all patients in the DataStorage and generates alerts as necessary.
+     */
     public void evaluateAllPatients() {
         List<Patient> patients = dataStorage.getAllPatients();
         for (Patient patient : patients) {
@@ -20,6 +31,11 @@ public class AlertGenerator {
         }
     }
 
+    /**
+     * Evaluates data for a specific patient and generates alerts if any conditions are met.
+     *
+     * @param patient the patient whose data is to be evaluated
+     */
     public void evaluateData(Patient patient) {
         List<PatientRecord> records = patient.getRecords(0, System.currentTimeMillis());
 
@@ -53,10 +69,20 @@ public class AlertGenerator {
         }
     }
 
+    /**
+     * Triggers the specified alert.
+     *
+     * @param alert the alert to be triggered
+     */
     private void triggerAlert(Alert alert) {
         alert.notifyAlert();
     }
 
+    /**
+     * Main method to demonstrate alert generation with sample patient data.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         DataStorage dataStorage = DataStorage.getInstance();
         AlertGenerator alertGenerator = new AlertGenerator(dataStorage);

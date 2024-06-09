@@ -4,12 +4,20 @@ import java.util.Random;
 
 import com.cardio_generator.outputs.OutputStrategy;
 
+/**
+ * Generates blood pressure data (systolic and diastolic) for patients.
+ */
 public class BloodPressureDataGenerator implements PatientDataGenerator {
     private static final Random random = new Random();
 
     private int[] lastSystolicValues;
     private int[] lastDiastolicValues;
 
+    /**
+     * Initializes the BloodPressureDataGenerator with baseline values for each patient.
+     *
+     * @param patientCount the number of patients to generate data for
+     */
     public BloodPressureDataGenerator(int patientCount) {
         lastSystolicValues = new int[patientCount + 1];
         lastDiastolicValues = new int[patientCount + 1];
@@ -21,6 +29,12 @@ public class BloodPressureDataGenerator implements PatientDataGenerator {
         }
     }
 
+    /**
+     * Generates and outputs blood pressure data for a specific patient.
+     *
+     * @param patientId the identifier of the patient for whom to generate data
+     * @param outputStrategy the output strategy to handle the formatted data
+     */
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
         try {

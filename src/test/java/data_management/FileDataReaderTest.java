@@ -11,6 +11,9 @@ import com.data_management.DataStorage;
 import com.data_management.FileDataReader;
 import com.data_management.PatientRecord;
 
+/**
+ * Unit tests for the FileDataReader class.
+ */
 public class FileDataReaderTest {
 
     private static final String TEST_DIR = "test_files";
@@ -34,8 +37,8 @@ public class FileDataReaderTest {
 
         // Create test files
         Files.write(testDirPath.resolve("testfile.txt"), List.of(
-                "patientId: 1, timestamp: 1714376789050, label: WhiteBloodCells, data: 100.0",
-                "patientId: 1, timestamp: 1714376789051, label: WhiteBloodCells, data: 200.0"
+                "1,1714376789050,WhiteBloodCells,100.0",
+                "1,1714376789051,WhiteBloodCells,200.0"
         ));
 
         Files.write(testDirPath.resolve("emptyfile.txt"), List.of());
@@ -57,25 +60,25 @@ public class FileDataReaderTest {
 
     @Test
     public void testReadEmptyFile() throws IOException {
+        reader = new FileDataReader(TEST_DIR + "/emptyfile.txt");
         reader.readData(dataStorage);
 
-        List<PatientRecord> records = dataStorage.getRecords(1, 1714376789050L, 1714376789051L);
-        // Assuming emptyfile.txt does not add any records, the records should remain unchanged
-        assertEquals(2, records.size());
+        List<PatientRecord> records = dataStorage.getRecords(1, 0, System.currentTimeMillis());
+        assertTrue(records.isEmpty(), "There should be no records for an empty file");
     }
 
     @Test
     public void testReadMalformedFile() throws IOException {
-        reader.readData(dataStorage);
+        reader = new FileDataReader(TEST_DIR + "/malformedfile.txt");
 
-        // There should be no records added from the malformed file
-        List<PatientRecord> records = dataStorage.getRecords(1, 1714376789050L, 1714376789051L);
-        assertEquals(2, records.size());
+        assertThrows(IllegalArgumentException.class, () -> {
+            reader.readData(dataStorage);
+        }, "Malformed file should throw an IllegalArgumentException");
     }
 
     @Test
     public void testReadFileNotFound() {
-        FileDataReader invalidReader = new FileDataReader("nonexistent_directory");
+        FileDataReader invalidReader = new FileDataReader("nonexistent_directory/nonexistent_file.txt");
         assertThrows(IOException.class, () -> {
             invalidReader.readData(dataStorage);
         });

@@ -2,8 +2,11 @@ package data_management;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import com.cardio_generator.*;
+import com.cardio_generator.HealthDataSimulator;
 
+/**
+ * Unit tests for the HealthDataSimulator singleton.
+ */
 public class HealthDataSimulatorSingletonTest {
 
     @Test

@@ -5,9 +5,18 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 
+/**
+ * WebSocket client implementation for receiving real-time patient data.
+ */
 public class WebSocketClientImpl extends WebSocketClient {
     private DataStorage dataStorage;
 
+    /**
+     * Constructs a new WebSocketClientImpl.
+     *
+     * @param serverUri   the URI of the WebSocket server
+     * @param dataStorage the DataStorage instance to store incoming data
+     */
     public WebSocketClientImpl(URI serverUri, DataStorage dataStorage) {
         super(serverUri);
         this.dataStorage = dataStorage;
