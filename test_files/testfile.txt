@@ -1,0 +1,2 @@
+patientId: 1, timestamp: 1714376789050, label: WhiteBloodCells, data: 100.0
+patientId: 1, timestamp: 1714376789051, label: WhiteBloodCells, data: 200.0
