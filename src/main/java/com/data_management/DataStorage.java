@@ -32,4 +32,29 @@ public class DataStorage {
     public List<Patient> getAllPatients() {
         return new ArrayList<>(patientMap.values());
     }
+
+    public static void main(String[] args) {
+        DataStorage storage = new DataStorage();
+
+        // Adding patient data
+        storage.addPatientData(1, 120.0, "BloodPressure", System.currentTimeMillis());
+        storage.addPatientData(1, 125.0, "BloodPressure", System.currentTimeMillis() + 1000);
+        storage.addPatientData(2, 98.0, "BloodSaturation", System.currentTimeMillis());
+        
+        // Retrieving and printing records for patient 1
+        List<PatientRecord> patient1Records = storage.getRecords(1, 0, System.currentTimeMillis() + 2000);
+        System.out.println("Records for patient 1:");
+        for (PatientRecord record : patient1Records) {
+            System.out.println("Type: " + record.getRecordType() +
+                               ", Value: " + record.getMeasurementValue() +
+                               ", Timestamp: " + record.getTimestamp());
+        }
+
+        // Retrieving and printing all patients
+        List<Patient> allPatients = storage.getAllPatients();
+        System.out.println("All patients:");
+        for (Patient patient : allPatients) {
+            System.out.println("Patient ID: " + patient.getPatientId());
+        }
+    }
 }
