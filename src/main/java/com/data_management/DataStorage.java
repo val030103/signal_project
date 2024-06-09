@@ -6,10 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataStorage {
+    private static DataStorage instance;
     private ConcurrentMap<Integer, Patient> patientMap; // Stores patient objects indexed by their unique patient ID.
 
-    public DataStorage() {
+    private DataStorage() {
         this.patientMap = new ConcurrentHashMap<>();
+    }
+
+    public static synchronized DataStorage getInstance() {
+        if (instance == null) {
+            instance = new DataStorage();
+        }
+        return instance;
     }
 
     public synchronized void addPatientData(int patientId, double measurementValue, String recordType, long timestamp) {
@@ -34,20 +42,20 @@ public class DataStorage {
     }
 
     public static void main(String[] args) {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         // Adding patient data
         storage.addPatientData(1, 120.0, "BloodPressure", System.currentTimeMillis());
         storage.addPatientData(1, 125.0, "BloodPressure", System.currentTimeMillis() + 1000);
         storage.addPatientData(2, 98.0, "BloodSaturation", System.currentTimeMillis());
-        
+
         // Retrieving and printing records for patient 1
         List<PatientRecord> patient1Records = storage.getRecords(1, 0, System.currentTimeMillis() + 2000);
         System.out.println("Records for patient 1:");
         for (PatientRecord record : patient1Records) {
             System.out.println("Type: " + record.getRecordType() +
-                               ", Value: " + record.getMeasurementValue() +
-                               ", Timestamp: " + record.getTimestamp());
+                    ", Value: " + record.getMeasurementValue() +
+                    ", Timestamp: " + record.getTimestamp());
         }
 
         // Retrieving and printing all patients

@@ -1,15 +1,13 @@
 package com.cardio_generator.generators;
 
 import java.util.Random;
-
+import com.cardio_generator.outputs.ConsoleOutputStrategy;
 import com.cardio_generator.outputs.OutputStrategy;
 
 public class AlertGenerator implements PatientDataGenerator {
 
     public static final Random randomGenerator = new Random(); // Random generator for simulating alert events.
-    // Keeps track of current alert states for each patient (false = resolved, true = active)
-    // Changed variable name to camelCase
-    private boolean[] alertStates;
+    private boolean[] alertStates; // Keeps track of current alert states for each patient (false = resolved, true = active)
 
     /**
      * Initializes the alert states for each patient.
@@ -17,7 +15,6 @@ public class AlertGenerator implements PatientDataGenerator {
      */
     public AlertGenerator(int patientCount) {
         alertStates = new boolean[patientCount + 1]; // Include one extra for 1-based indexing
-        // Changed variable name to camelCase
     }
 
     /**
@@ -50,6 +47,21 @@ public class AlertGenerator implements PatientDataGenerator {
         } catch (Exception e) {
             System.err.println("An error occurred while generating alert data for patient " + patientId);
             e.printStackTrace(); // Print the stack trace to help diagnose issues.
+        }
+    }
+
+    /**
+     * Main method to demonstrate alert generation for a set number of patients.
+     * @param args command-line arguments (not used)
+     */
+    public static void main(String[] args) {
+        int patientCount = 10; // Number of patients to simulate
+        AlertGenerator alertGenerator = new AlertGenerator(patientCount);
+        OutputStrategy consoleOutputStrategy = new ConsoleOutputStrategy();
+
+        // Simulate alert generation for each patient
+        for (int patientId = 1; patientId <= patientCount; patientId++) {
+            alertGenerator.generate(patientId, consoleOutputStrategy);
         }
     }
 }
