@@ -20,7 +20,7 @@ public class AlertGenerator {
         }
     }
 
-    private void evaluateData(Patient patient) {
+    public void evaluateData(Patient patient) {
         List<PatientRecord> records = patient.getRecords(0, System.currentTimeMillis());
 
         AlertStrategy bloodPressureStrategy = new BloodPressureStrategy();
@@ -55,5 +55,40 @@ public class AlertGenerator {
 
     private void triggerAlert(Alert alert) {
         alert.notifyAlert();
+    }
+
+    public static void main(String[] args) {
+        DataStorage dataStorage = DataStorage.getInstance();
+        AlertGenerator alertGenerator = new AlertGenerator(dataStorage);
+
+        // Adding sample patient data
+        int patientId1 = 1;
+        dataStorage.addPatientData(patientId1, 130, "BloodPressure", System.currentTimeMillis() - 20000);
+        dataStorage.addPatientData(patientId1, 145, "BloodPressure", System.currentTimeMillis() - 10000);
+        dataStorage.addPatientData(patientId1, 160, "BloodPressure", System.currentTimeMillis());
+
+        int patientId2 = 2;
+        dataStorage.addPatientData(patientId2, 185, "BloodPressure", System.currentTimeMillis());
+
+        int patientId3 = 3;
+        dataStorage.addPatientData(patientId3, 90, "BloodSaturation", System.currentTimeMillis());
+
+        int patientId4 = 4;
+        dataStorage.addPatientData(patientId4, 95, "BloodSaturation", System.currentTimeMillis() - 500000);
+        dataStorage.addPatientData(patientId4, 85, "BloodSaturation", System.currentTimeMillis());
+
+        int patientId5 = 5;
+        dataStorage.addPatientData(patientId5, 85, "BloodSaturation", System.currentTimeMillis());
+        dataStorage.addPatientData(patientId5, 80, "BloodPressure", System.currentTimeMillis());
+
+        int patientId7 = 7;
+        dataStorage.addPatientData(patientId7, 0.8, "ECG", System.currentTimeMillis() - 60000);
+        dataStorage.addPatientData(patientId7, 0.9, "ECG", System.currentTimeMillis() - 50000);
+        dataStorage.addPatientData(patientId7, 0.85, "ECG", System.currentTimeMillis() - 40000);
+        dataStorage.addPatientData(patientId7, 1.0, "ECG", System.currentTimeMillis() - 30000);
+        dataStorage.addPatientData(patientId7, 5.0, "ECG", System.currentTimeMillis() - 20000);  // Peak that should trigger the alert
+
+        // Evaluate all patients
+        alertGenerator.evaluateAllPatients();
     }
 }

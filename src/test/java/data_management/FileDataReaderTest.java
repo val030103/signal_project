@@ -20,7 +20,7 @@ public class FileDataReaderTest {
     @BeforeEach
     public void setUp() throws IOException {
         // Set up the test directory and create test files
-        dataStorage = new DataStorage();
+        dataStorage = DataStorage.getInstance();
         reader = new FileDataReader(TEST_DIR);
 
         Path testDirPath = Paths.get(TEST_DIR);

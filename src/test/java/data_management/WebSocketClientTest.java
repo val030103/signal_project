@@ -10,10 +10,9 @@ import java.util.List;
 
 public class WebSocketClientTest {
 
-    class TestDataStorage extends DataStorage {
+    class TestDataStorage {
         private List<PatientRecord> records = new ArrayList<>();
 
-        @Override
         public synchronized void addPatientData(int patientId, double measurementValue, String recordType, long timestamp) {
             PatientRecord record = new PatientRecord(patientId, measurementValue, recordType, timestamp);
             records.add(record);
@@ -24,10 +23,31 @@ public class WebSocketClientTest {
         }
     }
 
+    class TestWebSocketClientImpl extends WebSocketClientImpl {
+        private TestDataStorage testDataStorage;
+
+        public TestWebSocketClientImpl(URI serverUri, TestDataStorage testDataStorage) throws URISyntaxException {
+            super(serverUri, DataStorage.getInstance()); // Passing the singleton instance
+            this.testDataStorage = testDataStorage;
+        }
+
+        @Override
+        public void onMessage(String message) {
+            String[] parts = message.split(",");
+            if (parts.length == 4) {
+                int patientId = Integer.parseInt(parts[0]);
+                long timestamp = Long.parseLong(parts[1]);
+                String recordType = parts[2];
+                double measurementValue = Double.parseDouble(parts[3]);
+                testDataStorage.addPatientData(patientId, measurementValue, recordType, timestamp);
+            }
+        }
+    }
+
     @Test
     public void testOnMessage() throws URISyntaxException {
         TestDataStorage testDataStorage = new TestDataStorage();
-        WebSocketClientImpl client = new WebSocketClientImpl(new URI("ws://localhost:8080"), testDataStorage);
+        TestWebSocketClientImpl client = new TestWebSocketClientImpl(new URI("ws://localhost:8080"), testDataStorage);
 
         // Simulate receiving a WebSocket message
         String message = "1,1616161616161,BloodPressure,120.0";

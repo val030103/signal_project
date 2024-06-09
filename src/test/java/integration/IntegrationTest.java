@@ -20,7 +20,7 @@ public class IntegrationTest {
 
     @BeforeEach
     public void setUp() throws URISyntaxException {
-        dataStorage = new DataStorage();
+        dataStorage = DataStorage.getInstance();
         webSocketClient = new WebSocketClientImpl(new URI("ws://localhost:8080"), dataStorage);
         alertGenerator = new AlertGenerator(dataStorage);
     }
