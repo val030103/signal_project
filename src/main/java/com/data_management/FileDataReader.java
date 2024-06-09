@@ -35,7 +35,7 @@ public class FileDataReader implements DataReader {
     @Override
     public void connectWebSocket(String url) throws IOException {
         try {
-            webSocketClient = new WebSocketClientImpl(new URI(url), new DataStorage());
+            webSocketClient = new WebSocketClientImpl(new URI(url), DataStorage.getInstance());
             webSocketClient.connectBlocking();
         } catch (URISyntaxException | InterruptedException e) {
             throw new IOException("WebSocket connection failed", e);
