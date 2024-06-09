@@ -67,6 +67,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Project Members
 - Student ID: 6319956
 
-##UML models and descriptions
+## UML models and descriptions
 
 The added uml models for the different classes can be found here: https://github.com/val030103/signal_project/tree/master/uml_models 
