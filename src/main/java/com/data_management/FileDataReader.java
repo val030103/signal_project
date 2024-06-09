@@ -1,56 +1,51 @@
 package com.data_management;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class FileDataReader implements DataReader {
-    private String outputDir;
+    private String filePath;
+    private WebSocketClientImpl webSocketClient;
 
-    public FileDataReader(String outputDir) {
-        this.outputDir = outputDir;
+    public FileDataReader(String filePath) {
+        this.filePath = filePath;
     }
 
     @Override
     public void readData(DataStorage dataStorage) throws IOException {
-        Path dirPath = Paths.get(outputDir);
-        if (!Files.exists(dirPath) || !Files.isDirectory(dirPath)) {
-            throw new IOException("Directory does not exist or is not a directory: " + outputDir);
-        }
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 4) {
+                    int patientId = Integer.parseInt(parts[0]);
+                    long timestamp = Long.parseLong(parts[1]);
+                    String recordType = parts[2];
+                    double measurementValue = Double.parseDouble(parts[3]);
 
-        Files.list(dirPath)
-            .filter(Files::isRegularFile)
-            .forEach(file -> {
-                try {
-                    List<String> lines = Files.readAllLines(file);
-                    for (String line : lines) {
-                        parseLine(line, dataStorage);
-                    }
-                } catch (IOException e) {
-                    System.err.println("Error reading file: " + file);
-                    e.printStackTrace();
+                    dataStorage.addPatientData(patientId, measurementValue, recordType, timestamp);
                 }
-            });
+            }
+        }
     }
 
-    private void parseLine(String line, DataStorage dataStorage) {
-        String[] parts = line.split(", ");
-        if (parts.length < 4) {
-            System.err.println("Skipping malformed line: " + line);
-            return;
-        }
+    @Override
+    public void connectWebSocket(String url) throws IOException {
         try {
-            int patientId = Integer.parseInt(parts[0].split(": ")[1]);
-            long timestamp = Long.parseLong(parts[1].split(": ")[1]);
-            String label = parts[2].split(": ")[1];
-            double data = Double.parseDouble(parts[3].split(": ")[1]);
+            webSocketClient = new WebSocketClientImpl(new URI(url), new DataStorage());
+            webSocketClient.connectBlocking();
+        } catch (URISyntaxException | InterruptedException e) {
+            throw new IOException("WebSocket connection failed", e);
+        }
+    }
 
-            dataStorage.addPatientData(patientId, data, label, timestamp);
-        } catch (NumberFormatException e) {
-            System.err.println("Error parsing line: " + line);
-            e.printStackTrace();
+    @Override
+    public void disconnectWebSocket() throws IOException {
+        if (webSocketClient != null) {
+            webSocketClient.close();
         }
     }
 }

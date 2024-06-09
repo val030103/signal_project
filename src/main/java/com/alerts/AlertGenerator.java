@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class AlertGenerator {
     
+    @SuppressWarnings("unused")
     private DataStorage dataStorage;
 
     /**

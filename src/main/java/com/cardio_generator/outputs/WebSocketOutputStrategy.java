@@ -2,7 +2,6 @@ package com.cardio_generator.outputs;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.server.WebSocketServer;
-
 import java.net.InetSocketAddress;
 
 public class WebSocketOutputStrategy implements OutputStrategy {
@@ -42,7 +41,28 @@ public class WebSocketOutputStrategy implements OutputStrategy {
 
         @Override
         public void onMessage(WebSocket conn, String message) {
-            // Not used in this context
+            // Ensure incoming data messages are formatted correctly
+            // Format: "patientId,timestamp,recordType,measurementValue"
+            try {
+                String[] parts = message.split(",");
+                if (parts.length == 4) {
+                    @SuppressWarnings("unused")
+                    int patientId = Integer.parseInt(parts[0]);
+                    @SuppressWarnings("unused")
+                    long timestamp = Long.parseLong(parts[1]);
+                    @SuppressWarnings("unused")
+                    String recordType = parts[2];
+                    @SuppressWarnings("unused")
+                    double measurementValue = Double.parseDouble(parts[3]);
+
+                    // Handle the incoming data message appropriately
+                } else {
+                    throw new IllegalArgumentException("Malformed data message");
+                }
+            } catch (Exception e) {
+                // Handle errors such as corrupted data messages
+                e.printStackTrace();
+            }
         }
 
         @Override
